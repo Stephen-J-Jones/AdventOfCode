@@ -23,8 +23,8 @@ def part_1_count_visible_trees():
 def part_2_scenic_score():
     scenic_score = 0
     column_count, columns, data, row_count = prepare_tree_grid()
-    for row_index in range(1, row_count):
-        for col_index in range(1, column_count):
+    for row_index in range(row_count):
+        for col_index in range(column_count):
             current_tree = data[row_index][col_index]
             to_left = data[row_index][col_index - 1::-1]
             to_right = data[row_index][col_index + 1:]
@@ -58,7 +58,8 @@ def prepare_tree_grid():
     data = [line for line in read_lines("puzzle_input.txt")]
     column_count = len(data[0])
     row_count = len(data)
-    columns = make_columns(column_count, data, row_count)
+    columns=list("".join(col) for col in zip(*data))
+    # columns = make_columns(column_count, data, row_count)
     return column_count, columns, data, row_count
 
 
