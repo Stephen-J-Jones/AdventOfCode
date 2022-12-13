@@ -2,3 +2,5 @@
 puzzle_input.txt
 
 .idea/
+
+*.pyc
