@@ -1,7 +1,7 @@
 import re
 from dataclasses import dataclass, field
 from math import prod
-
+from typing import Callable
 from shared import read_lines
 
 
@@ -17,10 +17,18 @@ class Monkey:
     name: str = ""
     inspection_count: int = 0
     items: list = field(default_factory=list)
-    operation: str = ""
+    operation: Callable = None
     test_value: int = 0
     false_monkey: int = 0
     true_monkey: int = 0
+
+
+def get_all_numbers(string):
+    return re.findall(r"\d+", string)
+
+
+def get_first_number(line):
+    return next(int(x) for x in get_all_numbers(line))
 
 
 def get_monkeys():
@@ -32,15 +40,15 @@ def get_monkeys():
             monkeys.append(monkey)
             continue
         if "Starting items" in line:
-            monkey.items = [int(x) for x in re.findall(r"\d+", line)]
+            monkey.items = [int(x) for x in get_all_numbers(line)]
         if "Operation" in line:
-            monkey.operation = line.split("=")[-1].strip()
+            monkey.operation = eval(f'lambda old: {(line.split("=")[-1].strip())}')
         if "Test" in line:
-            monkey.test_value = next(int(x) for x in re.findall(r"\d+", line))
+            monkey.test_value = get_first_number(line)
         if "If true" in line:
-            monkey.true_monkey = next(int(x) for x in re.findall(r"\d+", line))
+            monkey.true_monkey = get_first_number(line)
         if "If false" in line:
-            monkey.false_monkey = next(int(x) for x in re.findall(r"\d+", line))
+            monkey.false_monkey = get_first_number(line)
     return monkeys
 
 
@@ -53,7 +61,7 @@ def count_inspections():
         for monkey in monkeys:
             while monkey.items:
                 monkey.inspection_count += 1
-                new_worry = eval(monkey.operation, {"old": monkey.items.pop()})
+                new_worry = monkey.operation(monkey.items.pop())
                 new_worry = new_worry // WORRY_REDUCTION
                 if new_worry % monkey.test_value == 0:
                     destination_monkey = monkeys[monkey.true_monkey]
