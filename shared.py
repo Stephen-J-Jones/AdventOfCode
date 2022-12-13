@@ -2,8 +2,8 @@ import itertools
 
 
 def read_lines(file_name):
-    with open(file_name, 'r') as calorie_file:
-        for line in calorie_file:
+    with open(file_name, 'r') as data_file:
+        for line in data_file:
             yield line.strip('\n')
 
 
