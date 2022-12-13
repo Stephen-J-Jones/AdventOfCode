@@ -14,3 +14,6 @@ def chunked_iterable(iterable, size):
         if not chunk:
             break
         yield chunk
+
+SAMPLE = "sample_input.txt"
+PUZZLE = "puzzle_input.txt"
