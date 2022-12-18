@@ -1,4 +1,5 @@
 import itertools
+import re
 
 
 def read_lines(file_name):
@@ -15,5 +16,10 @@ def chunked_iterable(iterable, size):
             break
         yield chunk
 
+
 SAMPLE = "sample_input.txt"
 PUZZLE = "puzzle_input.txt"
+
+
+def find_all_numbers_in_string(line):
+    return [int(x) for x in re.findall(r"-?\d+", line)]
