@@ -32,28 +32,15 @@ def reorder():
     count = len(instructions) - 1
     for mix in range(10):
         for instruction in instructions:
-            if instruction.val == 0:
-                continue
-            if instruction.val < 0:
-                new_left = instruction.left
-                new_left.right = instruction.right
-                instruction.right.left = new_left
-                for i in range(abs(instruction.val)%count):
-                    new_left = new_left.left
-                instruction.right = new_left.right
-                instruction.left = new_left
-                new_left.right = instruction
-                instruction.right.left = instruction
-            if instruction.val > 0:
-                new_right = instruction.right
-                new_right.left = instruction.left
-                instruction.left.right = new_right
-                for i in range(abs(instruction.val)%count):
-                    new_right = new_right.right
-                instruction.left = new_right.left
-                instruction.right = new_right
-                new_right.left = instruction
-                instruction.left.right = instruction
+            new_right = instruction.right
+            new_right.left = instruction.left
+            instruction.left.right = new_right
+            for i in range(instruction.val % count):
+                new_right = new_right.right
+            instruction.left = new_right.left
+            instruction.right = new_right
+            new_right.left = instruction
+            instruction.left.right = instruction
     return instructions
 
 
