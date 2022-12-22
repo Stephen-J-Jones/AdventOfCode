@@ -7,7 +7,10 @@ class Num:
     def __init__(self, val, left=None, right=None):
         self.left = left
         self.val = val
-        self.right=right
+        self.right = right
+
+
+DECRYPTION_KEY = 811589153
 
 
 def read_into_data_structures():
@@ -15,7 +18,7 @@ def read_into_data_structures():
     ordered = []
     for line in read_lines(PUZZLE):
         val = find_all_numbers_in_string(line)[0]
-        num = Num(val)
+        num = Num(val * DECRYPTION_KEY)
         instructions.append(num)
         ordered.append(num)
     for i in range(len(instructions)):
@@ -26,30 +29,31 @@ def read_into_data_structures():
 
 def reorder():
     instructions = read_into_data_structures()
-    count = len(instructions)-1
-    for instruction in instructions:
-        if instruction.val == 0:
-            continue
-        if instruction.val < 0:
-            new_left = instruction.left
-            new_left.right = instruction.right
-            instruction.right.left = new_left
-            for i in range(abs(instruction.val)%count):
-                new_left = new_left.left
-            instruction.right = new_left.right
-            instruction.left = new_left
-            new_left.right = instruction
-            instruction.right.left = instruction
-        if instruction.val > 0:
-            new_right = instruction.right
-            new_right.left = instruction.left
-            instruction.left.right = new_right
-            for i in range(abs(instruction.val)%count):
-                new_right = new_right.right
-            instruction.left = new_right.left
-            instruction.right = new_right
-            new_right.left = instruction
-            instruction.left.right = instruction
+    count = len(instructions) - 1
+    for mix in range(10):
+        for instruction in instructions:
+            if instruction.val == 0:
+                continue
+            if instruction.val < 0:
+                new_left = instruction.left
+                new_left.right = instruction.right
+                instruction.right.left = new_left
+                for i in range(abs(instruction.val)%count):
+                    new_left = new_left.left
+                instruction.right = new_left.right
+                instruction.left = new_left
+                new_left.right = instruction
+                instruction.right.left = instruction
+            if instruction.val > 0:
+                new_right = instruction.right
+                new_right.left = instruction.left
+                instruction.left.right = new_right
+                for i in range(abs(instruction.val)%count):
+                    new_right = new_right.right
+                instruction.left = new_right.left
+                instruction.right = new_right
+                new_right.left = instruction
+                instruction.left.right = instruction
     return instructions
 
 
