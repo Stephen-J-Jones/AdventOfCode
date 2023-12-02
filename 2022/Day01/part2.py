@@ -1,10 +1,10 @@
-from shared import read_lines
+from shared import read_lines, PUZZLE
 
 if __name__ == '__main__':
     elves = []
     i = 0
     elves.append(0)
-    for line in read_lines('calories.txt'):
+    for line in read_lines(PUZZLE):
         if line == "":
             i += 1
             elves.append(0)
