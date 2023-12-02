@@ -2,7 +2,7 @@ from shared import read_lines, SAMPLE, find_all_numbers_in_string, PUZZLE
 
 
 def read_data():
-    for line in read_lines(PUZZLE):
+    for line in read_lines(SAMPLE):
         yield find_all_numbers_in_string(line)
 
 
@@ -24,5 +24,16 @@ def build_blob():
     return blob_faces
 
 
+def find_internals(faces):
+    internal_faces = set()
+    for face in faces:
+        faces_to_check = get_drop_faces(face[0][0], face[0][1], face[0][2])
+        if faces_to_check.issubset(faces):
+            internal_faces |= faces_to_check
+    return faces-internal_faces
+
+
 if __name__ == "__main__":
-    print(len(build_blob()))
+    faces = build_blob()
+    print(len(faces))
+    print(len(find_internals(faces)))
