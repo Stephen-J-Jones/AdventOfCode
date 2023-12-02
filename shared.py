@@ -23,3 +23,7 @@ PUZZLE = "puzzle_input.txt"
 
 def find_all_numbers_in_string(line):
     return [int(x) for x in re.findall(r"-?\d+", line)]
+
+
+def find_all_digits_in_string(line):
+    return [int(x) for x in re.findall(r"\d", line)]
