@@ -1,3 +1,4 @@
+import timeit
 from collections import defaultdict
 
 from shared import SAMPLE, PUZZLE, read_lines, find_all_numbers_in_string
@@ -101,8 +102,7 @@ def source_to_destination(input_ranges, ranges):
     return destination_ranges + new_ranges
 
 
-if __name__ == "__main__":
-    start_time = process_time()
+def do_puzzle():
     mapping = build_mappings()
     locations = []
     for seed in mapping[SEEDS]:
@@ -115,5 +115,8 @@ if __name__ == "__main__":
         location = source_to_destination(humidity, mapping[HUMIDITY_TO_LOCATION])
         locations.extend(location)
     print(min(locations)[0])
-    end_time = process_time()
-    print(end_time - start_time)
+
+
+if __name__ == "__main__":
+    exec_time = timeit.timeit(do_puzzle, number=1) * 10 ** 3
+    print(f"{exec_time:.03f}ms")
