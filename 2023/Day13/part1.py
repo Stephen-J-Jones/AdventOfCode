@@ -1,18 +1,15 @@
 import timeit
 
 from shared import (
-    SAMPLE,
     PUZZLE,
     read_lines,
-    find_all_numbers_in_string,
-    find_all_digits_in_string,
 )
 
 
 def do_puzzle():
     patterns = []
     pattern = []
-    for l in read_lines(SAMPLE):
+    for l in read_lines(PUZZLE):
         if not l:
             patterns.append(pattern)
             pattern = []
